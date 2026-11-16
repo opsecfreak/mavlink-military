@@ -37,7 +37,28 @@ python3 -m pymavlink.tools.mavgen \
 ```
 
 Replace `--lang` with any language mavgen supports (for example `Python3`,
-`CS`, `Java`, `TypeScript`).
+`CS`, `Java`, `TypeScript`). For a Python 3 example, use:
+
+```sh
+git clone https://github.com/mavlink/mavlink.git --recursive
+cp military.xml mavlink/message_definitions/v1.0/
+cd mavlink
+python3 -m pymavlink.tools.mavgen \
+  --lang=Python3 --wire-protocol=2.0 \
+  --output=out message_definitions/v1.0/military.xml
+```
+
+This generates a Python module you can import directly from the output folder,
+for example:
+
+```python
+from pymavlink.dialects.v10 import military
+
+msg = military.MAVLink_military_message(
+    target_system=1,
+    target_component=1,
+)
+```
 
 ## Try it on hardware
 
